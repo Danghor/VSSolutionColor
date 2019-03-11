@@ -7,7 +7,7 @@
 
         protected Command(int commandId, SolutionColorPackage package)
         {
-            this.CommandId = commandId;
+            CommandId = commandId;
             this.package = package;
         }
     }

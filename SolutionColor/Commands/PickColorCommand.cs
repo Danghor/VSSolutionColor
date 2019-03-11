@@ -10,14 +10,12 @@ namespace SolutionColor.Commands
     /// </summary>
     internal sealed class PickColorCommand : Command
     {
-        public const int CommandId = 0x0100;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PickColorCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
-        private PickColorCommand(SolutionColorPackage package) : base(package)
+        private PickColorCommand(SolutionColorPackage package) : base(0x0100, package)
         {
             if (package == null)
             {

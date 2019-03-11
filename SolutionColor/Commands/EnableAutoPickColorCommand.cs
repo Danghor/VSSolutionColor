@@ -9,8 +9,6 @@ namespace SolutionColor.Commands
     /// </summary>
     internal sealed class EnableAutoPickColorCommand : Command
     {
-        public const int CommandId = 0x0102;
-
         private readonly MenuCommand menuItem;
 
         /// <summary>
@@ -18,7 +16,7 @@ namespace SolutionColor.Commands
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
-        private EnableAutoPickColorCommand(SolutionColorPackage package) : base(package)
+        private EnableAutoPickColorCommand(SolutionColorPackage package) : base(0x0102, package)
         {
             if (package == null)
             {
