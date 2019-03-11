@@ -11,10 +11,6 @@ namespace SolutionColor
         private const string CollectionName = "SolutionColorSettings";
         private const string AutomaticColorPickIdentifier = "AutomaticColorPick";
 
-        public SolutionColorSettingStore()
-        {
-        }
-
         public bool IsAutomaticColorPickEnabled()
         {
             var settingsStore = GetSettingsStore();
