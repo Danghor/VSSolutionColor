@@ -7,7 +7,7 @@ namespace SolutionColor.Commands
     /// <summary>
     /// Command enable/disable automatic color picking.
     /// </summary>
-    internal sealed class EnableAutoPickColorCommand : Command
+    internal sealed class EnableAutoPickColorCommand : Command<EnableAutoPickColorCommand>
     {
         private readonly MenuCommand menuItem;
 
@@ -25,21 +25,12 @@ namespace SolutionColor.Commands
 
             if (((IServiceProvider)package).GetService(typeof(IMenuCommandService)) is OleMenuCommandService commandService)
             {
-                var menuCommandID = new CommandID(SolutionColorPackage.ToolbarCommandSetGuid, CommandId);
-                menuItem = new MenuCommand(this.Execute, menuCommandID);
+                var menuCommandID = new CommandID(SolutionColorPackage.ToolbarCommandSetGuid, commandId);
+                menuItem = new MenuCommand(Execute, menuCommandID);
                 commandService.AddCommand(menuItem);
 
                 menuItem.Checked = package.Settings.IsAutomaticColorPickEnabled();
             }
-        }
-
-        /// <summary>
-        /// Gets the instance of the command.
-        /// </summary>
-        public static EnableAutoPickColorCommand Instance
-        {
-            get;
-            private set;
         }
 
         /// <summary>
@@ -48,7 +39,7 @@ namespace SolutionColor.Commands
         /// <param name="package">Owner package, not null.</param>
         public static void Initialize(SolutionColorPackage package)
         {
-            Instance = new EnableAutoPickColorCommand(package);
+            new EnableAutoPickColorCommand(package);
         }
 
         private void Execute(object sender, EventArgs e)

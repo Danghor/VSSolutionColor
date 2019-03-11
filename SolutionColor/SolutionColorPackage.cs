@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.Shell;
+using SolutionColor.Commands;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Automation;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
-using Microsoft.VisualStudio.Shell;
-using SolutionColor.Commands;
-using System.Collections.Generic;
 using System.Windows.Interop;
-using System.Linq;
 
 namespace SolutionColor
 {
@@ -31,7 +32,7 @@ namespace SolutionColor
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [Guid(SolutionColorPackage.PackageGuidString)]
+    [Guid(PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideAutoLoad(Microsoft.VisualStudio.VSConstants.UICONTEXT.NoSolution_string)]
     public sealed class SolutionColorPackage : Package
@@ -40,7 +41,7 @@ namespace SolutionColor
 
         public static readonly Guid ToolbarCommandSetGuid = new Guid("00d80876-3407-4666-bf62-7262028ea83b");
 
-        public SolutionColorSettingStore Settings { get; private set; } = new SolutionColorSettingStore();
+        public SolutionColorSettingStore Settings { get; } = new SolutionColorSettingStore();
 
         /// <summary>
         /// Store process id, since we use this on a very regular basis (whenever any windows opens anywhere...) and we don't want to do GetCurrentProcess every time.
@@ -75,7 +76,7 @@ namespace SolutionColor
             {
                 // Check if we already saved something for this solution.
                 string solutionPath = VSUtils.GetCurrentSolutionPath();
-                if (package.Settings.GetSolutionColorSetting(solutionPath, out System.Drawing.Color color))
+                if (package.Settings.GetSolutionColorSetting(solutionPath, out Color color))
                     package.SetTitleBarColor(color);
                 else if (package.Settings.IsAutomaticColorPickEnabled())
                 {
@@ -95,13 +96,6 @@ namespace SolutionColor
         }
 
         private SolutionListener listener;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PickColorCommand"/> class.
-        /// </summary>
-        public SolutionColorPackage()
-        {
-        }
 
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -181,8 +175,7 @@ namespace SolutionColor
 
                     // Check if we already saved something for this solution.
                     // Do this in here since we call UpdateTitleBarControllerList fairly regularly and in the most cases won't have any new controllers.
-                    System.Drawing.Color color;
-                    if (Settings.GetSolutionColorSetting(VSUtils.GetCurrentSolutionPath(), out color))
+                    if (Settings.GetSolutionColorSetting(VSUtils.GetCurrentSolutionPath(), out Color color))
                         newController.SetTitleBarColor(color);
                 }
             }
@@ -190,7 +183,7 @@ namespace SolutionColor
 
         #region Color Manipulation
 
-        public void SetTitleBarColor(System.Drawing.Color color)
+        public void SetTitleBarColor(Color color)
         {
             foreach (var bar in windowTitleBarController)
                 bar.Value.SetTitleBarColor(color);
@@ -202,12 +195,12 @@ namespace SolutionColor
                 bar.Value.ResetTitleBarColor(); 
         }
 
-        public System.Drawing.Color GetMainTitleBarColor()
+        public Color GetMainTitleBarColor()
         {
             if (windowTitleBarController.TryGetValue(Application.Current.MainWindow, out TitleBarColorController titleBar))
                 return titleBar.TryGetTitleBarColor();
             else
-                return System.Drawing.Color.Black;
+                return Color.Black;
         }
 
         #endregion

@@ -82,8 +82,7 @@ namespace SolutionColor
                 return customColorPaletteString.Split(new char[]{ ' ' }, System.StringSplitOptions.RemoveEmptyEntries).Select(x =>
                 {
                     // Can't be cautious enough when reading user string.
-                    int color = -1;
-                    if (!int.TryParse(x, out color))
+                    if (!int.TryParse(x, out int color))
                         return -1;
                     else
                         return color;

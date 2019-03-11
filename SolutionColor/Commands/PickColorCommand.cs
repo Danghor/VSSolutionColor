@@ -8,8 +8,8 @@ namespace SolutionColor.Commands
     /// <summary>
     /// Command to open color picker in order to choose a color for the titlebar.
     /// </summary>
-    internal sealed class PickColorCommand : Command
-    {
+    internal sealed class PickColorCommand : Command<PickColorCommand>
+    {       
         /// <summary>
         /// Initializes a new instance of the <see cref="PickColorCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
@@ -24,19 +24,10 @@ namespace SolutionColor.Commands
 
             if (((IServiceProvider)package).GetService(typeof(IMenuCommandService)) is OleMenuCommandService commandService)
             {
-                var menuCommandID = new CommandID(SolutionColorPackage.ToolbarCommandSetGuid, CommandId);
-                var menuItem = new MenuCommand(this.Execute, menuCommandID);
+                var menuCommandID = new CommandID(SolutionColorPackage.ToolbarCommandSetGuid, commandId);
+                var menuItem = new MenuCommand(Execute, menuCommandID);
                 commandService.AddCommand(menuItem);
             }
-        }
-
-        /// <summary>
-        /// Gets the instance of the command.
-        /// </summary>
-        public static PickColorCommand Instance
-        {
-            get;
-            private set;
         }
 
         /// <summary>
@@ -45,7 +36,7 @@ namespace SolutionColor.Commands
         /// <param name="package">Owner package, not null.</param>
         public static void Initialize(SolutionColorPackage package)
         {
-            Instance = new PickColorCommand(package);
+            new PickColorCommand(package);
         }
 
         private void Execute(object sender, EventArgs e)

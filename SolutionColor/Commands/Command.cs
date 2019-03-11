@@ -1,13 +1,14 @@
 ﻿namespace SolutionColor.Commands
 {
-    internal abstract class Command
+    internal abstract class Command<T>
     {
-        public readonly int CommandId;
+        protected static T Instance { get; set; }
+        protected readonly int commandId;
         protected readonly SolutionColorPackage package;
 
         protected Command(int commandId, SolutionColorPackage package)
         {
-            CommandId = commandId;
+            this.commandId = commandId;
             this.package = package;
         }
     }

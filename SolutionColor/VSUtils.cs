@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.Shell;
+using System;
 
 namespace SolutionColor
 {
@@ -9,11 +10,11 @@ namespace SolutionColor
     {
         public static EnvDTE80.DTE2 GetDTE()
         {
-            var dte = Package.GetGlobalService(typeof(EnvDTE.DTE)) as EnvDTE80.DTE2;
-            if (dte == null)
+            if (!(Package.GetGlobalService(typeof(EnvDTE.DTE)) is EnvDTE80.DTE2 dte))
             {
-                throw new System.Exception("Failed to retrieve DTE2!");
+                throw new Exception("Failed to retrieve DTE2!");
             }
+
             return dte;
         }
 

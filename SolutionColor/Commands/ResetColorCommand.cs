@@ -7,7 +7,7 @@ namespace SolutionColor.Commands
     /// <summary>
     /// Command to reset the title bar color.
     /// </summary>
-    internal sealed class ResetColorCommand : Command
+    internal sealed class ResetColorCommand : Command<ResetColorCommand>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ResetColorCommand"/> class.
@@ -18,25 +18,15 @@ namespace SolutionColor.Commands
         {
             if (package == null)
             {
-                throw new ArgumentNullException("package");
+                throw new ArgumentNullException(nameof(package));
             }
 
-            OleMenuCommandService commandService = ((IServiceProvider)package).GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            if (commandService != null)
+            if (((IServiceProvider)package).GetService(typeof(IMenuCommandService)) is OleMenuCommandService commandService)
             {
-                var menuCommandID = new CommandID(SolutionColorPackage.ToolbarCommandSetGuid, CommandId);
+                var menuCommandID = new CommandID(SolutionColorPackage.ToolbarCommandSetGuid, commandId);
                 var menuItem = new MenuCommand(Execute, menuCommandID);
                 commandService.AddCommand(menuItem);
             }
-        }
-
-        /// <summary>
-        /// Gets the instance of the command.
-        /// </summary>
-        public static ResetColorCommand Instance
-        {
-            get;
-            private set;
         }
 
         /// <summary>
@@ -45,7 +35,7 @@ namespace SolutionColor.Commands
         /// <param name="package">Owner package, not null.</param>
         public static void Initialize(SolutionColorPackage package)
         {
-            Instance = new ResetColorCommand(package);
+            new ResetColorCommand(package);
         }
 
         private void Execute(object sender, EventArgs e)

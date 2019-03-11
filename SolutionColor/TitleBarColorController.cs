@@ -10,12 +10,12 @@ namespace SolutionColor
     /// </summary>
     public sealed class TitleBarColorController
     {
-        private DependencyObject titleBarContainer = null;
-        private TextBlock titleBarTextBox = null;
+        private DependencyObject titleBarContainer;
+        private TextBlock titleBarTextBox;
 
-        private object defaultBackgroundValue = null;
+        private object defaultBackgroundValue;
         private const string ColorPropertyName = "Background";
-        private System.Windows.Media.Brush defaultTextForeground = null;
+        private Brush defaultTextForeground;
 
         private TitleBarColorController()
         {
@@ -26,7 +26,7 @@ namespace SolutionColor
         /// </summary>
         static public TitleBarColorController CreateFromWindow(Window window)
         {
-            TitleBarColorController newController = new TitleBarColorController();
+            var newController = new TitleBarColorController();
             try
             {
                 // Apply knowledge of basic Visual Studio 2015/2017 window structure.
@@ -138,8 +138,7 @@ namespace SolutionColor
             try
             {
                 System.Reflection.PropertyInfo propertyInfo = titleBarContainer.GetType().GetProperty(ColorPropertyName);
-                var colorBrush = propertyInfo.GetValue(titleBarContainer) as SolidColorBrush;
-                if (colorBrush != null)
+                if (propertyInfo.GetValue(titleBarContainer) is SolidColorBrush colorBrush)
                 {
                     return System.Drawing.Color.FromArgb(colorBrush.Color.A, colorBrush.Color.R, colorBrush.Color.G, colorBrush.Color.B);
                 }
@@ -148,7 +147,7 @@ namespace SolutionColor
             }
             catch (Exception e)
             {
-                MessageBox.Show("Failed to get the color of the title bar:\n" + e.ToString(), "Failed to get Titlebar Color");
+                MessageBox.Show($"Failed to get the color of the title bar:\n{e}", "Failed to get Titlebar Color");
             }
 
             return System.Drawing.Color.Black;
