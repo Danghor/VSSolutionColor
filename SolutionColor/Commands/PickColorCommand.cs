@@ -3,25 +3,22 @@ using System.ComponentModel.Design;
 using Microsoft.VisualStudio.Shell;
 using System.Windows.Forms;
 
-namespace SolutionColor
+namespace SolutionColor.Commands
 {
     /// <summary>
     /// Command to open color picker in order to choose a color for the titlebar.
     /// </summary>
-    internal sealed class PickColorCommand
+    internal sealed class PickColorCommand : Command
     {
         public const int CommandId = 0x0100;
-
-        private readonly SolutionColorPackage package;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PickColorCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
-        private PickColorCommand(SolutionColorPackage package)
+        private PickColorCommand(SolutionColorPackage package) : base(package)
         {
-            this.package = package;
             if (package == null)
             {
                 throw new ArgumentNullException(nameof(package));

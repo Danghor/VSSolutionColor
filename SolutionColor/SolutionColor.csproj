@@ -59,6 +59,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\EnableAutoPickColorCommand.cs" />
     <Compile Include="Commands\ResetColorCommand.cs" />
     <Compile Include="Commands\PickColorCommand.cs" />

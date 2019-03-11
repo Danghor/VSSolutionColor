@@ -4,6 +4,7 @@ using System.Windows.Automation;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
+using SolutionColor.Commands;
 using System.Collections.Generic;
 using System.Windows.Interop;
 using System.Linq;
