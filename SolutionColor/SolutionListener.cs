@@ -5,15 +5,16 @@ using System;
 namespace SolutionColor
 {
     /// <summary>
+    /// <para>
     /// Abstract listener for solution events.
     /// This is much more powerful than EnvDTE.Events.SolutionEvents!
-    /// 
-    /// More events, intentionally not implemented: IVsSolutionEvents4, IVsSolutionEvents, IVsSolutionEvents2
+    /// </para>
+    /// <para>More events, intentionally not implemented: IVsSolutionEvents4, IVsSolutionEvents, IVsSolutionEvents2</para>
     /// </summary>
     abstract public class SolutionListener : IVsSolutionEvents3, IDisposable
     {
-        private IVsSolution solutionService;
-        private uint eventsCookie = (uint)Constants.VSCOOKIE_NIL;
+        private readonly IVsSolution solutionService;
+        private uint eventsCookie;
         private bool isDisposed;
 
         protected SolutionListener(IServiceProvider serviceProvider)

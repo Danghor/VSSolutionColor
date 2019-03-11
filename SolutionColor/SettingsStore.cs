@@ -75,7 +75,6 @@ namespace SolutionColor
                 return false;
         }
 
-
         private const string CustomColorPaletteName = "CustomColorPalette";
 
         public int[] GetCustomColorList()

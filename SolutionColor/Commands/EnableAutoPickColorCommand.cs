@@ -11,8 +11,8 @@ namespace SolutionColor
     {
         public const int CommandId = 0x0102;
 
-        private SolutionColorPackage package;
-        private MenuCommand menuItem;
+        private readonly SolutionColorPackage package;
+        private readonly MenuCommand menuItem;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnableAutoPickColorCommand"/> class.
@@ -24,11 +24,10 @@ namespace SolutionColor
             this.package = package;
             if (package == null)
             {
-                throw new ArgumentNullException("package");
+                throw new ArgumentNullException(nameof(package));
             }
 
-            OleMenuCommandService commandService = ((IServiceProvider)package).GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            if (commandService != null)
+            if (((IServiceProvider)package).GetService(typeof(IMenuCommandService)) is OleMenuCommandService commandService)
             {
                 var menuCommandID = new CommandID(SolutionColorPackage.ToolbarCommandSetGuid, CommandId);
                 menuItem = new MenuCommand(this.Execute, menuCommandID);

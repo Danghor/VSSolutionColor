@@ -41,7 +41,6 @@ namespace SolutionColor
 
         public SolutionColorSettingStore Settings { get; private set; } = new SolutionColorSettingStore();
 
-
         /// <summary>
         /// Store process id, since we use this on a very regular basis (whenever any windows opens anywhere...) and we don't want to do GetCurrentProcess every time.
         /// </summary>
@@ -52,15 +51,14 @@ namespace SolutionColor
         /// <summary>
         /// Currently scheduled call to UpdateTitleBarControllerList
         /// </summary>
-        private System.Windows.Threading.DispatcherOperation scheduledUpdateControllerOperation = null;
-
+        private System.Windows.Threading.DispatcherOperation scheduledUpdateControllerOperation;
 
         /// <summary>
         /// Listener to opened solutions. Sets title bar color settings in effect if any.
         /// </summary>
         private class SolutionOpenListener : SolutionListener
         {
-            private SolutionColorPackage package;
+            private readonly SolutionColorPackage package;
 
             public SolutionOpenListener(SolutionColorPackage package) : base(package)
             {
@@ -76,8 +74,7 @@ namespace SolutionColor
             {
                 // Check if we already saved something for this solution.
                 string solutionPath = VSUtils.GetCurrentSolutionPath();
-                System.Drawing.Color color;
-                if (package.Settings.GetSolutionColorSetting(solutionPath, out color))
+                if (package.Settings.GetSolutionColorSetting(solutionPath, out System.Drawing.Color color))
                     package.SetTitleBarColor(color);
                 else if (package.Settings.IsAutomaticColorPickEnabled())
                 {
@@ -104,7 +101,6 @@ namespace SolutionColor
         public SolutionColorPackage()
         {
         }
-
 
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -207,8 +203,7 @@ namespace SolutionColor
 
         public System.Drawing.Color GetMainTitleBarColor()
         {
-            TitleBarColorController titleBar;
-            if (windowTitleBarController.TryGetValue(Application.Current.MainWindow, out titleBar))
+            if (windowTitleBarController.TryGetValue(Application.Current.MainWindow, out TitleBarColorController titleBar))
                 return titleBar.TryGetTitleBarColor();
             else
                 return System.Drawing.Color.Black;

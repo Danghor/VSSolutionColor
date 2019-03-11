@@ -8,7 +8,7 @@ namespace SolutionColor
     /// <summary>
     /// All the important magic to manipulate the main window's title bar happens here.
     /// </summary>
-    public class TitleBarColorController
+    public sealed class TitleBarColorController
     {
         private DependencyObject titleBarContainer = null;
         private TextBlock titleBarTextBox = null;

@@ -12,7 +12,7 @@ namespace SolutionColor
     {
         public const int CommandId = 0x0100;
 
-        private SolutionColorPackage package;
+        private readonly SolutionColorPackage package;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PickColorCommand"/> class.
@@ -24,11 +24,10 @@ namespace SolutionColor
             this.package = package;
             if (package == null)
             {
-                throw new ArgumentNullException("package");
+                throw new ArgumentNullException(nameof(package));
             }
 
-            OleMenuCommandService commandService = ((IServiceProvider)package).GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            if (commandService != null)
+            if (((IServiceProvider)package).GetService(typeof(IMenuCommandService)) is OleMenuCommandService commandService)
             {
                 var menuCommandID = new CommandID(SolutionColorPackage.ToolbarCommandSetGuid, CommandId);
                 var menuItem = new MenuCommand(this.Execute, menuCommandID);
@@ -56,10 +55,12 @@ namespace SolutionColor
 
         private void Execute(object sender, EventArgs e)
         {
-            var dialog = new ColorDialog();
-            dialog.AllowFullOpen = true;
-            dialog.Color = package.GetMainTitleBarColor();
-            dialog.CustomColors = package.Settings.GetCustomColorList();
+            var dialog = new ColorDialog
+            {
+                AllowFullOpen = true,
+                Color = package.GetMainTitleBarColor(),
+                CustomColors = package.Settings.GetCustomColorList()
+            };
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {

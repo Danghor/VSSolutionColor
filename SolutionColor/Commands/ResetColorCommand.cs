@@ -11,7 +11,7 @@ namespace SolutionColor
     {
         public const int CommandId = 0x0101;
 
-        private SolutionColorPackage package;
+        private readonly SolutionColorPackage package;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ResetColorCommand"/> class.
@@ -30,7 +30,7 @@ namespace SolutionColor
             if (commandService != null)
             {
                 var menuCommandID = new CommandID(SolutionColorPackage.ToolbarCommandSetGuid, CommandId);
-                var menuItem = new MenuCommand(this.Execute, menuCommandID);
+                var menuItem = new MenuCommand(Execute, menuCommandID);
                 commandService.AddCommand(menuItem);
             }
         }
