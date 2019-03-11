@@ -45,16 +45,16 @@ namespace SolutionColor.Commands
             {
                 AllowFullOpen = true,
                 Color = package.GetMainTitleBarColor(),
-                CustomColors = package.Settings.GetCustomColorList()
+                CustomColors = SolutionColorSettingStore.GetCustomColorList()
             };
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 package.SetTitleBarColor(dialog.Color);
-                package.Settings.SaveOrOverwriteSolutionColor(VSUtils.GetCurrentSolutionPath(), dialog.Color);
+                SolutionColorSettingStore.SaveOrOverwriteSolutionColor(VSUtils.GetCurrentSolutionPath(), dialog.Color);
             }
 
-            package.Settings.SaveCustomColorList(dialog.CustomColors);
+            SolutionColorSettingStore.SaveCustomColorList(dialog.CustomColors);
         }
     }
 }

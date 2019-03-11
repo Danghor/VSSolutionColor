@@ -76,13 +76,13 @@ namespace SolutionColor
             {
                 // Check if we already saved something for this solution.
                 string solutionPath = VSUtils.GetCurrentSolutionPath();
-                if (package.Settings.GetSolutionColorSetting(solutionPath, out Color color))
+                if (SolutionColorSettingStore.GetSolutionColorSetting(solutionPath, out Color color))
                     package.SetTitleBarColor(color);
-                else if (package.Settings.IsAutomaticColorPickEnabled())
+                else if (SolutionColorSettingStore.IsAutomaticColorPickEnabled())
                 {
                     color = RandomColorGenerator.RandomColor.GetColor(RandomColorGenerator.ColorScheme.Random, VSUtils.IsUsingDarkTheme() ? RandomColorGenerator.Luminosity.Dark : RandomColorGenerator.Luminosity.Light);
                     package.SetTitleBarColor(color);
-                    package.Settings.SaveOrOverwriteSolutionColor(solutionPath, color);
+                    SolutionColorSettingStore.SaveOrOverwriteSolutionColor(solutionPath, color);
                 }
 
                 return 0;
@@ -175,7 +175,7 @@ namespace SolutionColor
 
                     // Check if we already saved something for this solution.
                     // Do this in here since we call UpdateTitleBarControllerList fairly regularly and in the most cases won't have any new controllers.
-                    if (Settings.GetSolutionColorSetting(VSUtils.GetCurrentSolutionPath(), out Color color))
+                    if (SolutionColorSettingStore.GetSolutionColorSetting(VSUtils.GetCurrentSolutionPath(), out Color color))
                         newController.SetTitleBarColor(color);
                 }
             }

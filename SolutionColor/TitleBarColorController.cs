@@ -24,7 +24,7 @@ namespace SolutionColor
         /// <summary>
         /// Uses knowledge of the VS window structure to retrieve pointers to the titlebar and its text element.
         /// </summary>
-        static public TitleBarColorController CreateFromWindow(Window window)
+        public static TitleBarColorController CreateFromWindow(Window window)
         {
             var newController = new TitleBarColorController();
             try
@@ -88,7 +88,7 @@ namespace SolutionColor
                 if (titleBarContainer != null)
                 {
                     System.Reflection.PropertyInfo propertyInfo = titleBarContainer.GetType().GetProperty(ColorPropertyName);
-                    propertyInfo.SetValue(titleBarContainer, new SolidColorBrush(System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B)), null);
+                    propertyInfo.SetValue(titleBarContainer, new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B)), null);
                 }
 
                 if(titleBarTextBox != null)
@@ -102,7 +102,7 @@ namespace SolutionColor
             }
             catch(Exception e)
             {
-                MessageBox.Show("Failed to set the color of the title bar:\n" + e.ToString(), "Failed to set Titlebar Color");
+                MessageBox.Show($"Failed to set the color of the title bar:\n{e}", "Failed to set Titlebar Color");
             }
         }
 
@@ -126,7 +126,7 @@ namespace SolutionColor
             }
             catch (Exception e)
             {
-                MessageBox.Show("Failed to reset the color of the title bar:\n" + e.ToString(), "Failed to reset Titlebar Color");
+                MessageBox.Show($"Failed to reset the color of the title bar:\n{e}", "Failed to reset Titlebar Color");
             }
         }
 

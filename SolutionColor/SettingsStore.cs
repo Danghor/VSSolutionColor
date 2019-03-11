@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Settings;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Settings;
 using System.IO;
@@ -11,7 +12,7 @@ namespace SolutionColor
         private const string CollectionName = "SolutionColorSettings";
         private const string AutomaticColorPickIdentifier = "AutomaticColorPick";
 
-        public bool IsAutomaticColorPickEnabled()
+        public static bool IsAutomaticColorPickEnabled()
         {
             var settingsStore = GetSettingsStore();
             if (settingsStore.PropertyExists(CollectionName, AutomaticColorPickIdentifier))
@@ -20,13 +21,13 @@ namespace SolutionColor
                 return false; // off by default.
         }
 
-        public void SetAutomaticColorPickEnabled(bool enabled)
+        public static void SetAutomaticColorPickEnabled(bool enabled)
         {
             var settingsStore = GetSettingsStore();
             settingsStore.SetBoolean(CollectionName, AutomaticColorPickIdentifier, enabled);
         }
 
-        public void SaveOrOverwriteSolutionColor(string solutionPath, System.Drawing.Color color)
+        public static void SaveOrOverwriteSolutionColor(string solutionPath, System.Drawing.Color color)
         {
             if (string.IsNullOrEmpty(solutionPath)) return;
             solutionPath = Path.GetFullPath(solutionPath);
@@ -53,7 +54,7 @@ namespace SolutionColor
         /// <param name="solutionPath">Path for the solution to check.</param>
         /// <param name="color">Color we saved for the solution</param>
         /// <returns>true if there was a color saved, false if not.</returns>
-        public bool GetSolutionColorSetting(string solutionPath, out System.Drawing.Color color)
+        public static bool GetSolutionColorSetting(string solutionPath, out System.Drawing.Color color)
         {
             color = System.Drawing.Color.Black;
 
@@ -73,13 +74,13 @@ namespace SolutionColor
 
         private const string CustomColorPaletteName = "CustomColorPalette";
 
-        public int[] GetCustomColorList()
+        public static int[] GetCustomColorList()
         {
             var settingsStore = GetSettingsStore();
             if (settingsStore.PropertyExists(CollectionName, CustomColorPaletteName))
             {
                 string customColorPaletteString = settingsStore.GetString(CollectionName, CustomColorPaletteName);
-                return customColorPaletteString.Split(new char[]{ ' ' }, System.StringSplitOptions.RemoveEmptyEntries).Select(x =>
+                return customColorPaletteString.Split(new[]{ ' ' }, System.StringSplitOptions.RemoveEmptyEntries).Select(x =>
                 {
                     // Can't be cautious enough when reading user string.
                     if (!int.TryParse(x, out int color))
@@ -94,7 +95,7 @@ namespace SolutionColor
             }
         }
 
-        public void SaveCustomColorList(int[] colorList)
+        public static void SaveCustomColorList(IEnumerable<int> colorList)
         {
             // Save as string since it is easy and save.
             // Alternative would be memorystream like we do with the color per solution path.
@@ -103,7 +104,7 @@ namespace SolutionColor
             settingsStore.SetString(CollectionName, CustomColorPaletteName, colorList.Aggregate(string.Empty, (s, i) => s + " " + i.ToString()));
         }
 
-        private WritableSettingsStore GetSettingsStore()
+        private static WritableSettingsStore GetSettingsStore()
         {
             var settingsManager = new ShellSettingsManager(ServiceProvider.GlobalProvider);
             WritableSettingsStore settingsStore = settingsManager.GetWritableSettingsStore(SettingsScope.UserSettings);

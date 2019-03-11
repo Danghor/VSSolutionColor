@@ -11,7 +11,7 @@ namespace SolutionColor
     /// </para>
     /// <para>More events, intentionally not implemented: IVsSolutionEvents4, IVsSolutionEvents, IVsSolutionEvents2</para>
     /// </summary>
-    abstract public class SolutionListener : IVsSolutionEvents3, IDisposable
+    public abstract class SolutionListener : IVsSolutionEvents3, IDisposable
     {
         private readonly IVsSolution solutionService;
         private uint eventsCookie;

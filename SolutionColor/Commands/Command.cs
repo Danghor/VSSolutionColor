@@ -2,7 +2,6 @@
 {
     internal abstract class Command<T>
     {
-        protected static T Instance { get; set; }
         protected readonly int commandId;
         protected readonly SolutionColorPackage package;
 

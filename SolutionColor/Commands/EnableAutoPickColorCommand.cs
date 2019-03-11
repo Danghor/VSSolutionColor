@@ -29,7 +29,7 @@ namespace SolutionColor.Commands
                 menuItem = new MenuCommand(Execute, menuCommandID);
                 commandService.AddCommand(menuItem);
 
-                menuItem.Checked = package.Settings.IsAutomaticColorPickEnabled();
+                menuItem.Checked = SolutionColorSettingStore.IsAutomaticColorPickEnabled();
             }
         }
 
@@ -45,7 +45,7 @@ namespace SolutionColor.Commands
         private void Execute(object sender, EventArgs e)
         {
             menuItem.Checked = !menuItem.Checked;
-            package.Settings.SetAutomaticColorPickEnabled(menuItem.Checked);
+            SolutionColorSettingStore.SetAutomaticColorPickEnabled(menuItem.Checked);
         }
     }
 }
