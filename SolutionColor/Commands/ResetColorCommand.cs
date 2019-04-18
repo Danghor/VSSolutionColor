@@ -2,16 +2,14 @@
 using System.ComponentModel.Design;
 using Microsoft.VisualStudio.Shell;
 
-namespace SolutionColor
+namespace SolutionColor.Commands
 {
     /// <summary>
     /// Command to reset the title bar color.
     /// </summary>
-    internal sealed class ResetColorCommand
+    internal sealed class ResetColorCommand : Command
     {
         public const int CommandId = 0x0101;
-
-        private SolutionColorPackage package;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ResetColorCommand"/> class.

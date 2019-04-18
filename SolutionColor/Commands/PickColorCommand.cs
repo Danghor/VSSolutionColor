@@ -3,16 +3,14 @@ using System.ComponentModel.Design;
 using Microsoft.VisualStudio.Shell;
 using System.Windows.Forms;
 
-namespace SolutionColor
+namespace SolutionColor.Commands
 {
     /// <summary>
     /// Command to open color picker in order to choose a color for the titlebar.
     /// </summary>
-    internal sealed class PickColorCommand
+    internal sealed class PickColorCommand : Command
     {
         public const int CommandId = 0x0100;
-
-        private SolutionColorPackage package;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PickColorCommand"/> class.

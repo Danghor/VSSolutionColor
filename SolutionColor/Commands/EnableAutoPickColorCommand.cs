@@ -2,16 +2,15 @@
 using System.ComponentModel.Design;
 using Microsoft.VisualStudio.Shell;
 
-namespace SolutionColor
+namespace SolutionColor.Commands
 {
     /// <summary>
     /// Command enable/disable automatic color picking.
     /// </summary>
-    internal sealed class EnableAutoPickColorCommand
+    internal sealed class EnableAutoPickColorCommand : Command
     {
         public const int CommandId = 0x0102;
 
-        private SolutionColorPackage package;
         private MenuCommand menuItem;
 
         /// <summary>
